@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">POI Torch</string>
+    <string name="ok">OK</string>
+
+    <string name="title_instruction">Richten Sie das Smartphone auf einen POI, um Informationen zu erhalten</string>
+    <string name="read_button">Informationen vorlesen</string>
+</resources>
