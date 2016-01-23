@@ -43,11 +43,12 @@ public class MainActivity extends AppCompatActivity {
     private TextView detailText;
     private Button readButton;
 
-    private final int MIN_DISTANCE_UPDATE = 1; //m
-    private final int MIN_TIME_UPDATE = 5000; //ms
-    private final int PROX_RADIUS = 100; //m
-    private final int ANGLE_DIFF = 10; //°
-    private int mAzimuth = 0; // degree
+    private final int MIN_DISTANCE_UPDATE = 3; //m
+    private final int MIN_TIME_UPDATE = 10000; //ms
+    private final int PROX_RADIUS = 150; //m
+    private final int ANGLE_DIFF = 20; //°
+    private final int LOCATION_UPDATE = 2000; //s
+    private int mAzimuth = -1; // degree
     private Location mLocation = null;
     private PoiModel shownLocation = null;
 
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 LocationMessage m = (LocationMessage) msg.obj;
 
                 if (!m.heading) {
+                    shownLocation = null;
                     if (detailText.getVisibility() == View.VISIBLE) {
                         titleText.setText(R.string.title_instruction);
                         readButton.setVisibility(View.GONE);
@@ -133,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         public void run() {
 //            Log.d(TAG, "locationCheckTask");
 
-            if(mLocation != null && mAzimuth >= 0) {
+            if(mLocation != null && mAzimuth > -1) {
                 boolean someHeading = false;
                 for (PoiModel poi : pois) {
                     if (mLocation.distanceTo(poi.getLocation()) <= PROX_RADIUS) {
@@ -173,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            mHandler.postDelayed(locationCheckTask, 3000);
+            mHandler.postDelayed(locationCheckTask, LOCATION_UPDATE);
         }
     };
 
